@@ -1,5 +1,5 @@
 <template>
   <div class="formats-page">
-    <h1>This is an formats page</h1>
+    <h1>This is a formats page</h1>
   </div>
 </template>
