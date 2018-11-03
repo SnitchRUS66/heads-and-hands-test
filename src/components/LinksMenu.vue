@@ -42,9 +42,10 @@ export default {
 
 <style lang="scss">
 .links-menu {
+  margin-bottom: auto;
   &__list {
     margin: 0;
-    padding: 0 50px;
+    padding: 0;
     list-style: none;
   }
   &__list-item {
