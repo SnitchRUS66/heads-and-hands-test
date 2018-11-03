@@ -1,6 +1,8 @@
 <template>
-    <div id="app">
-        <router-view class="router-view" />
+    <div class="app">
+        <main class="main">
+            <router-view />
+        </main>
         <nav-panel />
     </div>
 </template>
@@ -20,6 +22,25 @@ export default {
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: "Muller";
+  src: url("./assets/fonts/Muller/MullerLight.woff") format("woff"),
+    url("./assets/fonts/Muller/MullerLight.otf") format("otf");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Muller";
+  src: url("./assets/fonts/Muller/MullerRegular.woff") format("woff"),
+    url("./assets/fonts/Muller/MullerRegular.otf") format("otf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Muller";
+  src: url("./assets/fonts/Muller/MullerMedium.woff") format("woff"),
+    url("./assets/fonts/Muller/MullerMedium.otf") format("otf");
+  font-weight: 500;
+}
+
 html {
   height: 100%;
 }
@@ -28,15 +49,19 @@ body {
   height: 100%;
 }
 
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+a {
+  color: #0040ff;
+}
+
+.app {
+  font-family: "Muller", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   height: 100%;
 }
 
-.router-view {
+.main {
   flex-grow: 1;
 }
 </style>

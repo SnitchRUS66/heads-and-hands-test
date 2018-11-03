@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-panel">
+    <aside class="nav-panel">
         <div class="nav-panel__arrow"></div>
         <div class="nav-panel__toolbar">
             <div class="nav-panel__logo">
@@ -7,8 +7,20 @@
                     alt="HPMD Network">
             </div>
         </div>
-    </div>
+        <links-menu></links-menu>
+    </aside>
 </template>
+
+<script>
+import LinksMenu from "@/components/LinksMenu.vue";
+
+export default {
+  components: {
+    LinksMenu
+  }
+};
+</script>
+
 
 <style lang="scss">
 .nav-panel {
