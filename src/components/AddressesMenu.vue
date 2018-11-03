@@ -33,14 +33,35 @@
   &__list-item {
   }
   &__link {
+    display: block;
     font-size: 8px;
     line-height: 1.5;
     letter-spacing: 0.1px;
     color: #4a4a4a;
     text-decoration: none;
+    position: relative;
+    &:before {
+      content: "";
+      width: 15px;
+      height: 15px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      position: absolute;
+      right: calc(100% + 15px);
+    }
     &_msc {
+      &:before {
+        width: 13.5px;
+        height: 13.5px;
+        background-image: url("../assets/red-star.svg");
+      }
     }
     &_spb {
+      &:before {
+        width: 11.5px;
+        height: 12px;
+        background-image: url("../assets/blue-anchor.svg");
+      }
     }
     &.router-link-exact-active {
       font-weight: 500;
