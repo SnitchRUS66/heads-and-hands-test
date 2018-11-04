@@ -5,8 +5,10 @@
         </div>
         <div class="nav-panel__toolbar">
             <div class="nav-panel__logo">
-                <img src="../assets/logo.svg"
-                    alt="HPMD Network">
+                <router-link to="/">
+                    <img src="../assets/logo.svg"
+                        alt="HPMD Network">
+                </router-link>
             </div>
         </div>
         <div class="nav-panel__main">
@@ -34,10 +36,18 @@ export default {
   watch: {
     $route() {
       let self = this;
+
       this.$nextTick(() => {
         self.repositionArrow();
       });
     }
+  },
+  mounted() {
+    let self = this;
+
+    this.$nextTick(() => {
+      self.repositionArrow();
+    });
   },
   methods: {
     repositionArrow() {
@@ -96,8 +106,11 @@ export default {
   }
   &__logo {
     margin-top: 5px;
-    img {
-      width: 93px;
+    a {
+      display: inline-flex;
+      img {
+        width: 93px;
+      }
     }
   }
   &__main {
