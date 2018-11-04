@@ -1,7 +1,8 @@
 <template>
     <div class="address-page">
         <yandex-map class="address-page__map"
-            :coords="mapCenterCoords"
+            ref="yaMap"
+            :coords="$store.state.officeAddressCoords"
             :controls=[]
             :zoom="14"
             :placemarks="placemarks"
@@ -11,31 +12,29 @@
 </template>
 
 <script>
+import officesCoords from "@/data/officesCoords.js";
+import globalEventBus from "@/globalEventBus.js";
+
 export default {
   data: () => {
     return {
-      officeCoords: {
-        msc: [55.7084, 37.6527],
-        spb: [59.9096, 30.2842]
-      },
+      officesCoords,
       mapIsInitialized: false,
       placemarks: []
     };
   },
-  watch: {
-    $route(newId, oldId) {
-      console.log(`newId: ${newId}`, `oldId: ${oldId}`);
-    }
+  created() {
+    this.$store.commit(
+      "setOfficeAddress",
+      this.officesCoords[this.$route.query.office] || officesCoords[0]
+    );
   },
-  computed: {
-    mapCenterCoords() {
-      return (
-        this.officeCoords[this.$route.query.office] || this.officeCoords.msc
-      );
-    }
+  beforeDestroy() {
+    globalEventBus.$off("officeAddressClicked", this.officeAddressClickHandler);
   },
   methods: {
     setMarkers() {
+      let self = this;
       function getMarkerLayout(suffix) {
         let modifier = suffix ? ` address-page__marker_${suffix}` : "";
 
@@ -51,21 +50,30 @@ export default {
       if (!this.mapIsInitialized) {
         this.placemarks.push(
           {
-            coords: this.officeCoords.msc,
+            coords: this.officesCoords.msc,
             options: {
               iconLayout: getMarkerLayout("msc"),
               iconOffset: [-60, -50]
             }
           },
           {
-            coords: this.officeCoords.spb,
+            coords: this.officesCoords.spb,
             options: {
               iconLayout: getMarkerLayout("spb"),
               iconOffset: [-60, -50]
             }
           }
         );
+        globalEventBus.$on(
+          "officeAddressClicked",
+          this.officeAddressClickHandler
+        );
         this.mapIsInitialized = true;
+      }
+    },
+    officeAddressClickHandler(coords) {
+      if (this.$store.state.officeAddressCoords == coords) {
+        this.$refs.yaMap.myMap.panTo(coords);
       }
     }
   }

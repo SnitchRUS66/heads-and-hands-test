@@ -3,7 +3,8 @@
         <ul class="addresses-menu__list">
             <li class="addresses-menu__list-item">
                 <router-link class="addresses-menu__link addresses-menu__link_msc"
-                    to="/address?office=msc">
+                    to="/address?office=msc"
+                    @click.native="setMapCoords(officesCoords.msc)">
                     Москва<br />
                     +7 (495) 269 84 10<br />
                     ул. Ленинская Слобода, 19<br />
@@ -12,7 +13,8 @@
             </li>
             <li class="addresses-menu__list-item">
                 <router-link class="addresses-menu__link addresses-menu__link_spb"
-                    to="/address?office=spb">
+                    to="/address?office=spb"
+                    @click.native="setMapCoords(officesCoords.spb)">
                     Санкт-Петербург<br />
                     + 7 (812) 240-43-35<br />
                     196158, наб. Обводного канала 199,<br />
@@ -22,6 +24,26 @@
         </ul>
     </nav>
 </template>
+
+<script>
+import officesCoords from "@/data/officesCoords.js";
+import globalEventBus from "@/globalEventBus.js";
+
+export default {
+  data: () => {
+    return {
+      officesCoords
+    };
+  },
+  methods: {
+    setMapCoords(coords) {
+      this.$store.commit("setOfficeAddress", coords);
+      globalEventBus.$emit("officeAddressClicked", coords);
+    }
+  }
+};
+</script>
+
 
 <style lang="scss">
 .addresses-menu {
