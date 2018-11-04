@@ -1,7 +1,9 @@
 <template>
     <aside class="nav-panel">
-        <div class="nav-panel__arrow"
-            ref="arrow">
+        <div class="nav-panel__arrow-pan">
+            <div class="nav-panel__arrow"
+                ref="arrow">
+            </div>
         </div>
         <div class="nav-panel__toolbar">
             <div class="nav-panel__logo">
@@ -11,7 +13,8 @@
                 </router-link>
             </div>
         </div>
-        <div class="nav-panel__main">
+        <div class="nav-panel__main"
+            ref="main">
             <links-menu class="nav-panel__links-menu" />
             <addresses-menu class="nav-panel__addresses-menu" />
             <contacts-list class="nav-panel__contacts-list" />
@@ -21,6 +24,7 @@
 </template>
 
 <script>
+import _ from "underscore";
 import LinksMenu from "@/components/LinksMenu.vue";
 import AddressesMenu from "@/components/AddressesMenu.vue";
 import ContactsList from "@/components/ContactsList.vue";
@@ -37,31 +41,46 @@ export default {
     $route() {
       let self = this;
 
-      this.$nextTick(() => {
-        self.repositionArrow();
-      });
+      self.repositionArrow();
     }
   },
   mounted() {
     let self = this;
 
-    this.$nextTick(() => {
-      self.repositionArrow();
-    });
+    self.repositionArrow();
+    window.addEventListener("resize", self.debounceRepositionArrow());
+    self.$refs.main.addEventListener("scroll", self.debounceRepositionArrow());
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", self.debounceRepositionArrow());
+    this.$refs.main.removeEventListener(
+      "scroll",
+      self.debounceRepositionArrow()
+    );
   },
   methods: {
     repositionArrow() {
-      let activeNavElement = document.getElementsByClassName(
-        "router-link-exact-active router-link-active"
-      )[0];
-      let activeElementHeight = activeNavElement.offsetHeight;
-      let activeElementTopOffset = activeNavElement.getBoundingClientRect().top;
-      let arrowHeight = this.$refs.arrow.offsetHeight;
+      this.$nextTick(() => {
+        let activeNavElement = document.getElementsByClassName(
+          "router-link-exact-active router-link-active"
+        )[0];
+        let activeElementHeight = activeNavElement.offsetHeight;
+        let activeElementTopOffset = activeNavElement.getBoundingClientRect()
+          .top;
+        let arrowHeight = this.$refs.arrow.offsetHeight;
 
-      this.$refs.arrow.style.top = `${activeElementTopOffset +
-        activeElementHeight / 2 -
-        arrowHeight / 2 -
-        2}px`;
+        this.$refs.arrow.style.top = `${activeElementTopOffset +
+          activeElementHeight / 2 -
+          arrowHeight / 2 -
+          2}px`;
+      });
+    },
+    debounceRepositionArrow() {
+      let self = this;
+
+      return _.debounce(() => {
+        self.repositionArrow();
+      }, 100);
     }
   }
 };
@@ -75,12 +94,21 @@ export default {
   background: #fff;
   box-shadow: -3.5px 0 10px 0 rgba(155, 155, 155, 0.25);
   position: relative;
+  &__arrow-pan {
+    width: 18px;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
   &__arrow {
     width: 18px;
     height: 26px;
     position: absolute;
     top: 50%;
-    right: 100%;
+    right: 0;
     pointer-events: none;
     overflow: hidden;
     transition: top linear 300ms;
@@ -118,12 +146,16 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0 50px;
+    overflow: auto;
+    &_has-scroll {
+      box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.1);
+    }
   }
   &__links-menu {
     margin-bottom: auto;
   }
   &__addresses-menu {
-    margin-bottom: 36px;
+    margin: 36px 0;
   }
   &__contacts-list {
     margin-bottom: 13px;
