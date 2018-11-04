@@ -1,6 +1,8 @@
 <template>
     <aside class="nav-panel">
-        <div class="nav-panel__arrow"></div>
+        <div class="nav-panel__arrow"
+            ref="arrow">
+        </div>
         <div class="nav-panel__toolbar">
             <div class="nav-panel__logo">
                 <img src="../assets/logo.svg"
@@ -28,10 +30,32 @@ export default {
     AddressesMenu,
     ContactsList,
     SocialMedia
+  },
+  watch: {
+    $route() {
+      let self = this;
+      this.$nextTick(() => {
+        self.repositionArrow();
+      });
+    }
+  },
+  methods: {
+    repositionArrow() {
+      let activeNavElement = document.getElementsByClassName(
+        "router-link-exact-active router-link-active"
+      )[0];
+      let activeElementHeight = activeNavElement.offsetHeight;
+      let activeElementTopOffset = activeNavElement.getBoundingClientRect().top;
+      let arrowHeight = this.$refs.arrow.offsetHeight;
+
+      this.$refs.arrow.style.top = `${activeElementTopOffset +
+        activeElementHeight / 2 -
+        arrowHeight / 2 -
+        2}px`;
+    }
   }
 };
 </script>
-
 
 <style lang="scss">
 .nav-panel {
@@ -49,6 +73,7 @@ export default {
     right: 100%;
     pointer-events: none;
     overflow: hidden;
+    transition: top linear 300ms;
     &:before {
       content: "";
       width: 14px;
