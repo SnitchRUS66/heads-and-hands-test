@@ -33,7 +33,7 @@
   &__list-item {
   }
   &__link {
-    display: block;
+    display: inline-block;
     font-size: 8px;
     line-height: 1.5;
     letter-spacing: 0.1px;
