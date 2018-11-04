@@ -42,13 +42,14 @@
   padding: 0;
   list-style: none;
   &__item {
-    margin-left: 22px;
+    margin-left: 22.5px;
     &:first-child {
       margin-left: 0;
     }
     a {
       img {
-        height: 18.2px;
+        display: block;
+        height: 14px;
         width: auto;
       }
     }

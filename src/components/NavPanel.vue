@@ -9,9 +9,9 @@
         </div>
         <div class="nav-panel__main">
             <links-menu class="nav-panel__links-menu" />
-            <addresses-menu class="nav-panel__addresses-menu"/>
-            <contacts-list class="nav-panel__contacts-list"/>
-            <social-media class="nav-panel__social-media"/>
+            <addresses-menu class="nav-panel__addresses-menu" />
+            <contacts-list class="nav-panel__contacts-list" />
+            <social-media class="nav-panel__social-media" />
         </div>
     </aside>
 </template>
@@ -70,6 +70,7 @@ export default {
     align-items: center;
   }
   &__logo {
+    margin-top: 5px;
     img {
       width: 93px;
     }
@@ -87,10 +88,10 @@ export default {
     margin-bottom: 36px;
   }
   &__contacts-list {
-    margin-bottom: 13.5px;
+    margin-bottom: 13px;
   }
   &__social-media {
-    margin-bottom: 18.2px;
+    margin-bottom: 18px;
   }
 }
 </style>

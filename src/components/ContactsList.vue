@@ -26,6 +26,10 @@
     line-height: 1.5;
     letter-spacing: 0.1px;
     color: #4a4a4a;
+    margin-top: 7px;
+    &:first-child {
+      margin-top: 0;
+    }
     a {
       text-decoration: none;
     }

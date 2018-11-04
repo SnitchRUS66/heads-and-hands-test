@@ -42,13 +42,17 @@ export default {
 
 <style lang="scss">
 .links-menu {
-  margin-bottom: auto;
+  margin-top: 15px;
   &__list {
     margin: 0;
     padding: 0;
     list-style: none;
   }
   &__list-item {
+    margin-top: 6px;
+    &:first-child {
+      margin-top: 0;
+    }
   }
   &__link {
     color: #000;

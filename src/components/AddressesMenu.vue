@@ -53,6 +53,10 @@ export default {
     list-style: none;
   }
   &__list-item {
+    margin-top: 6px;
+    &:first-child {
+      margin-top: 0;
+    }
   }
   &__link {
     display: inline-block;
@@ -69,7 +73,8 @@ export default {
       background-repeat: no-repeat;
       background-size: contain;
       position: absolute;
-      right: calc(100% + 15px);
+      top: -1px;
+      right: calc(100% + 16px);
     }
     &_msc {
       &:before {
