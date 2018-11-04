@@ -1,6 +1,7 @@
 <template>
     <aside class="nav-panel">
-        <div class="nav-panel__arrow-pan">
+        <div class="nav-panel__arrow-pan"
+            v-if="$route.path != '/checkins'">
             <div class="nav-panel__arrow"
                 ref="arrow">
             </div>
@@ -16,12 +17,13 @@
         <baron-scroller class="nav-panel__main"
             ref="main"
             @scroll="debounceRepositionArrow()()">
-            <div class="nav-panel__main-content">
+            <div class="nav-panel__main-content" v-if="$route.path != '/checkins'">
                 <links-menu class="nav-panel__links-menu" />
                 <addresses-menu class="nav-panel__addresses-menu" />
                 <contacts-list class="nav-panel__contacts-list" />
                 <social-media class="nav-panel__social-media" />
             </div>
+            <stations-list class="nav-panel__stations-list" v-if="$route.path == '/checkins'"></stations-list>
         </baron-scroller>
     </aside>
 </template>
@@ -33,6 +35,7 @@ import LinksMenu from "@/components/LinksMenu.vue";
 import AddressesMenu from "@/components/AddressesMenu.vue";
 import ContactsList from "@/components/ContactsList.vue";
 import SocialMedia from "@/components/SocialMedia.vue";
+import StationsList from "@/components/StationsList.vue";
 
 export default {
   components: {
@@ -40,23 +43,22 @@ export default {
     LinksMenu,
     AddressesMenu,
     ContactsList,
-    SocialMedia
+    SocialMedia,
+    StationsList
   },
   watch: {
-    $route() {
-      let self = this;
-
-      self.repositionArrow();
+    $route(newRoute) {
+      if (newRoute.path != "/checkins") {
+        this.repositionArrow();
+      }
     }
   },
   mounted() {
-    let self = this;
-
-    self.repositionArrow();
-    window.addEventListener("resize", self.debounceRepositionArrow());
+    this.repositionArrow();
+    window.addEventListener("resize", this.debounceRepositionArrow());
   },
   beforeDestroy() {
-    window.removeEventListener("resize", self.debounceRepositionArrow());
+    window.removeEventListener("resize", this.debounceRepositionArrow());
   },
   methods: {
     repositionArrow() {
@@ -79,7 +81,9 @@ export default {
       let self = this;
 
       return _.debounce(() => {
-        self.repositionArrow();
+        if (self.$route.path != "/checkins") {
+          self.repositionArrow();
+        }
       }, 100);
     }
   }
@@ -152,6 +156,11 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0 50px;
+  }
+  &__stations-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
   &__links-menu {
     flex-shrink: 0;

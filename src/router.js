@@ -49,10 +49,10 @@ export default new Router({
         import(/* webpackChunkName: "address" */ "./views/Address.vue")
     },
     {
-      path: "/chekins",
-      name: "chekins",
+      path: "/checkins",
+      name: "checkins",
       component: () =>
-        import(/* webpackChunkName: "chekins" */ "./views/Chekins.vue")
+        import(/* webpackChunkName: "checkins" */ "./views/Checkins.vue")
     }
   ]
 });

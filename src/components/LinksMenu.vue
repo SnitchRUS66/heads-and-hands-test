@@ -38,7 +38,7 @@ export default {
           text: "Платформа"
         },
         {
-          path: "/chekins",
+          path: "/checkins",
           text: "Чекины"
         }
       ]
