@@ -16,41 +16,37 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue")
     },
     {
       path: "/cases",
       name: "cases",
-      component: Cases
+      component: () =>
+        import(/* webpackChunkName: "cases" */ "./views/Cases.vue")
     },
     {
       path: "/formats",
       name: "formats",
-      component: Formats
+      component: () =>
+        import(/* webpackChunkName: "formats" */ "./views/Formats.vue")
     },
     {
       path: "/for-publishers",
       name: "for-publishers",
-      component: ForPublishers
+      component: () =>
+        import(/* webpackChunkName: "for-publishers" */ "./views/ForPublishers.vue")
     },
     {
       path: "/platform",
       name: "platform",
-      component: Platform
+      component: () =>
+        import(/* webpackChunkName: "platform" */ "./views/Platform.vue")
     },
     {
       path: "/address",
       name: "address",
-      component: Address
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+        import(/* webpackChunkName: "address" */ "./views/Address.vue")
     }
   ]
 });
