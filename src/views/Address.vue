@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     setMarkers() {
-      let self = this;
       function getMarkerLayout(suffix) {
         let modifier = suffix ? ` address-page__marker_${suffix}` : "";
 

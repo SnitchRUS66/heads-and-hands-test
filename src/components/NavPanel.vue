@@ -13,18 +13,22 @@
                 </router-link>
             </div>
         </div>
-        <div class="nav-panel__main"
-            ref="main">
-            <links-menu class="nav-panel__links-menu" />
-            <addresses-menu class="nav-panel__addresses-menu" />
-            <contacts-list class="nav-panel__contacts-list" />
-            <social-media class="nav-panel__social-media" />
-        </div>
+        <baron-scroller class="nav-panel__main"
+            ref="main"
+            @scroll="debounceRepositionArrow()()">
+            <div class="nav-panel__main-content">
+                <links-menu class="nav-panel__links-menu" />
+                <addresses-menu class="nav-panel__addresses-menu" />
+                <contacts-list class="nav-panel__contacts-list" />
+                <social-media class="nav-panel__social-media" />
+            </div>
+        </baron-scroller>
     </aside>
 </template>
 
 <script>
 import _ from "underscore";
+import BaronScroller from "@/components/BaronScroller.vue";
 import LinksMenu from "@/components/LinksMenu.vue";
 import AddressesMenu from "@/components/AddressesMenu.vue";
 import ContactsList from "@/components/ContactsList.vue";
@@ -32,6 +36,7 @@ import SocialMedia from "@/components/SocialMedia.vue";
 
 export default {
   components: {
+    BaronScroller,
     LinksMenu,
     AddressesMenu,
     ContactsList,
@@ -49,14 +54,9 @@ export default {
 
     self.repositionArrow();
     window.addEventListener("resize", self.debounceRepositionArrow());
-    self.$refs.main.addEventListener("scroll", self.debounceRepositionArrow());
   },
   beforeDestroy() {
     window.removeEventListener("resize", self.debounceRepositionArrow());
-    this.$refs.main.removeEventListener(
-      "scroll",
-      self.debounceRepositionArrow()
-    );
   },
   methods: {
     repositionArrow() {
@@ -127,6 +127,7 @@ export default {
     }
   }
   &__toolbar {
+    flex-shrink: 0;
     height: 48px;
     padding: 0 50px;
     display: flex;
@@ -145,11 +146,12 @@ export default {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+  }
+  &__main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     padding: 0 50px;
-    overflow: auto;
-    &_has-scroll {
-      box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.1);
-    }
   }
   &__links-menu {
     margin-bottom: auto;
@@ -162,6 +164,23 @@ export default {
   }
   &__social-media {
     margin-bottom: 18px;
+  }
+  .baron {
+    display: flex;
+    flex-direction: column;
+    &._scrollbar {
+      box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.1);
+    }
+    &__scroller {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .baron__track {
+    top: 19.5px;
+    right: 20px;
+    bottom: 19.5px;
   }
 }
 </style>
