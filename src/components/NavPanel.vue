@@ -154,15 +154,19 @@ export default {
     padding: 0 50px;
   }
   &__links-menu {
+    flex-shrink: 0;
     margin-bottom: auto;
   }
   &__addresses-menu {
+    flex-shrink: 0;
     margin: 36px 0;
   }
   &__contacts-list {
+    flex-shrink: 0;
     margin-bottom: 13px;
   }
   &__social-media {
+    flex-shrink: 0;
     margin-bottom: 18px;
   }
   .baron {
@@ -181,6 +185,11 @@ export default {
     top: 19.5px;
     right: 20px;
     bottom: 19.5px;
+  }
+}
+@media (max-width: 700px) {
+  .nav-panel {
+    width: 100%;
   }
 }
 </style>

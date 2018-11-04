@@ -3,7 +3,7 @@
         <main class="main">
             <router-view />
         </main>
-        <nav-panel />
+        <nav-panel class="nav"/>
     </div>
 </template>
 
@@ -63,6 +63,17 @@ a {
 
 .main {
   flex-grow: 1;
-  //background: #c4c4c4;
+}
+
+@media (max-width: 700px) {
+  .app {
+    flex-direction: column;
+  }
+  .main {
+    height: 50%;
+  }
+  .nav {
+    height: 50%;
+  }
 }
 </style>
