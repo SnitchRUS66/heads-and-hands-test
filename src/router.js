@@ -47,6 +47,12 @@ export default new Router({
       name: "address",
       component: () =>
         import(/* webpackChunkName: "address" */ "./views/Address.vue")
+    },
+    {
+      path: "/chekins",
+      name: "chekins",
+      component: () =>
+        import(/* webpackChunkName: "chekins" */ "./views/Chekins.vue")
     }
   ]
 });

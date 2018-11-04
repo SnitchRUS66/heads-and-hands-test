@@ -5,7 +5,8 @@
                 v-for="link in links"
                 :key="link.path">
                 <router-link class="links-menu__link"
-                    :to="link.path">
+                    :to="link.path"
+                    @click.native="emitNavRoute(link.path)">
                     {{ link.text }}
                 </router-link>
             </li>
@@ -14,6 +15,8 @@
 </template>
 
 <script>
+import globalEventBus from "@/globalEventBus.js";
+
 export default {
   data: () => {
     return {
@@ -33,9 +36,18 @@ export default {
         {
           path: "/platform",
           text: "Платформа"
+        },
+        {
+          path: "/chekins",
+          text: "Чекины"
         }
       ]
     };
+  },
+  methods: {
+    emitNavRoute(route) {
+      globalEventBus.$emit("routeNavigated", route);
+    }
   }
 };
 </script>

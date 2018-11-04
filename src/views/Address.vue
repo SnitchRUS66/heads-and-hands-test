@@ -96,8 +96,6 @@ export default {
       display: none;
     }
     [class*="-ground-pane"] {
-      //filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.9999 0.9999 0.9999 0 0 0.9999 0.9999 0.9999 0 0 0.9999 0.9999 0.9999 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
-      //filter: url("data:image/svg+xml;utf-8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='display:none'><defs><filter id='high-contrast-filter'><feColorMatrix type='saturate' values='0' result='desat'/><feComponentTransfer><feFuncR type='discrete' tableValues='0 0 0 0 0 0 0 0 0 0 0 0 0 0 .8 .9 1' /><feFuncG type='discrete' tableValues='0 0 0 0 0 0 0 0 0 0 0 0 0 0 .8 .9 1' /><feFuncB type='discrete' tableValues='0 0 0 0 0 0 0 0 0 0 0 0 0 0 .8 .9 1' /></feComponentTransfer></filter></defs></svg>#gray");
       filter: grayscale(1) brightness(0.33);
     }
   }
