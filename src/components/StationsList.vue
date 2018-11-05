@@ -1,8 +1,11 @@
 <template>
     <div class="stations-list">
         <div class="stations-list__item" v-for="station in stations"
-            :key="station.id">
-            <div class="stations-list__icon">Ы</div>
+            :key="station.id"
+            @click="stationsListItemClick(station.id)">
+            <div class="stations-list__icon">
+                <img src="../assets/metro.svg" alt="M">
+            </div>
             <div class="stations-list__name-native">
                 {{ getNameNative(station.name) }}
             </div>
@@ -40,6 +43,9 @@ export default {
       } else {
         return "";
       }
+    },
+    stationsListItemClick(stationId) {
+      this.$store.commit("setBarChartDataCollectionById", stationId);
     }
   }
 };
@@ -54,6 +60,7 @@ export default {
       "icon nameTranslit";
     grid-template-columns: 50px auto;
     margin-top: 20px;
+    cursor: pointer;
     &:first-child {
       margin-top: 27.5px;
     }
@@ -66,6 +73,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    img {
+      display: block;
+      width: 17px;
+      height: 20px;
+    }
   }
   &__name-native {
     grid-area: nameNative;

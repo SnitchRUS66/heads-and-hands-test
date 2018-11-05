@@ -20,14 +20,19 @@
                 }"
                 :callbacks="{
                     click: function (event) {
-                        fillChartDataByStationId(station.id)
+                        onMarkerClick(event, station.id);
                     }
                 }">
             </ymap-marker>
         </yandex-map>
-        <bar-chart class="checkins-page__chart"
-            :chart-data="barChartDataCollection">
-        </bar-chart>
+        <div class="checkins-page__chart">
+            <div class="checkins-page__chart-title">
+                {{ $store.state.barChartDataCollection.datasets[0].label }}
+            </div>
+            <bar-chart class="checkins-page__chart-graph"
+                :chart-data="$store.state.barChartDataCollection">
+            </bar-chart>
+        </div>
     </div>
 </template>
 
@@ -45,7 +50,7 @@ export default {
     return {
       stations,
       checkinsData: {},
-      barChartDataCollection: {}
+      markers: []
     };
   },
   mounted() {
@@ -54,53 +59,15 @@ export default {
     this.checkinsData = stationsData;
   },
   methods: {
-    showAllMarkers() {
-      let map = this.$refs.yaMap.myMap;
+    showAllMarkers(map) {
+      window.yaMap = map;
 
       map.setBounds(map.geoObjects.getBounds());
       map.setZoom(map.getZoom() - 1);
     },
-    getStationById(id) {
-      let self = this;
 
-      return _.find(self.stations, station => station.id == id);
-    },
-    getStationDataById(id) {
-      let self = this;
-
-      return _.map(self.checkinsData.checkins_timestamps, checkinTimeStamp => {
-        let modifiedCheckinTimeStamp = {};
-
-        modifiedCheckinTimeStamp.time = checkinTimeStamp.time;
-
-        let findedStationCheckin = _.find(
-          checkinTimeStamp.stations_checkins_count,
-          stationCheckin => {
-            return stationCheckin.id_station == id;
-          }
-        );
-
-        if (findedStationCheckin && findedStationCheckin.count) {
-          modifiedCheckinTimeStamp.checkins_count = findedStationCheckin.count;
-        }
-
-        return modifiedCheckinTimeStamp;
-      });
-    },
-    fillChartDataByStationId(id) {
-      let stationData = this.getStationDataById(id);
-      let stationName = this.getStationById(id).name;
-
-      this.barChartDataCollection = {
-        labels: _.map(stationData, stationData => stationData.time),
-        datasets: [
-          {
-            label: stationName,
-            backgroundColor: "#f87979",
-            data: _.map(stationData, stationData => stationData.checkins_count)
-          }
-        ]
-      };
+    onMarkerClick(event, stationId) {
+      this.$store.commit("setBarChartDataCollectionById", stationId);
     }
   }
 };
@@ -129,9 +96,27 @@ export default {
   &__marker {
   }
   &__chart {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
     width: 300px;
     height: 200px;
+    padding: 10px 20px 0 10px;
+    border-radius: 4px;
     position: absolute;
+    top: 15px;
+    left: 15px;
+    &-title {
+      height: 20px;
+      font-size: 12px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-align: center;
+    }
+    &-graph {
+      height: calc(100% - 20px);
+    }
   }
 }
 </style>

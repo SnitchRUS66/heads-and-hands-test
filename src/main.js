@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Ymaps from "vue-yandex-maps";
+import Ymaps from "@/components/vue-yandex-maps/index.js";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
