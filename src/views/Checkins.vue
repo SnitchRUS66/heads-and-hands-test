@@ -17,33 +17,41 @@
                     imageHref: require('../assets/marker.svg'),
                     imageSize: [28.5, 35],
                     imageOffset: [-14.25, -35]
+                }"
+                :callbacks="{
+                    click: function (event) {
+                        fillChartDataByStationId(station.id)
+                    }
                 }">
             </ymap-marker>
         </yandex-map>
+        <bar-chart class="checkins-page__chart"
+            :chart-data="barChartDataCollection">
+        </bar-chart>
     </div>
 </template>
 
 <script>
 import _ from "underscore";
-import globalEventBus from "@/globalEventBus.js";
 import stations from "@/data/stations.js";
 import stationsData from "@/data/stationsData.js";
+import BarChart from "@/components/BarChart.vue";
 
 export default {
+  components: {
+    BarChart
+  },
   data: () => {
     return {
       stations,
-      checkinsData: {}
+      checkinsData: {},
+      barChartDataCollection: {}
     };
   },
   mounted() {
     window.t = this;
 
-    globalEventBus.$on("routeNavigated", this.showAllMarkers);
     this.checkinsData = stationsData;
-  },
-  beforeDestroy() {
-    globalEventBus.$off("routeNavigated");
   },
   methods: {
     showAllMarkers() {
@@ -51,6 +59,11 @@ export default {
 
       map.setBounds(map.geoObjects.getBounds());
       map.setZoom(map.getZoom() - 1);
+    },
+    getStationById(id) {
+      let self = this;
+
+      return _.find(self.stations, station => station.id == id);
     },
     getStationDataById(id) {
       let self = this;
@@ -73,6 +86,21 @@ export default {
 
         return modifiedCheckinTimeStamp;
       });
+    },
+    fillChartDataByStationId(id) {
+      let stationData = this.getStationDataById(id);
+      let stationName = this.getStationById(id).name;
+
+      this.barChartDataCollection = {
+        labels: _.map(stationData, stationData => stationData.time),
+        datasets: [
+          {
+            label: stationName,
+            backgroundColor: "#f87979",
+            data: _.map(stationData, stationData => stationData.checkins_count)
+          }
+        ]
+      };
     }
   }
 };
@@ -99,6 +127,11 @@ export default {
     }
   }
   &__marker {
+  }
+  &__chart {
+    width: 300px;
+    height: 200px;
+    position: absolute;
   }
 }
 </style>
