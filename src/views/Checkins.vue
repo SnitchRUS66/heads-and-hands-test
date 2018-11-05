@@ -24,17 +24,23 @@
 </template>
 
 <script>
+import _ from "underscore";
 import globalEventBus from "@/globalEventBus.js";
 import stations from "@/data/stations.js";
+import stationsData from "@/data/stationsData.js";
 
 export default {
   data: () => {
     return {
-      stations
+      stations,
+      checkinsData: {}
     };
   },
   mounted() {
+    window.t = this;
+
     globalEventBus.$on("routeNavigated", this.showAllMarkers);
+    this.checkinsData = stationsData;
   },
   beforeDestroy() {
     globalEventBus.$off("routeNavigated");
@@ -45,6 +51,28 @@ export default {
 
       map.setBounds(map.geoObjects.getBounds());
       map.setZoom(map.getZoom() - 1);
+    },
+    getStationDataById(id) {
+      let self = this;
+
+      return _.map(self.checkinsData.checkins_timestamps, checkinTimeStamp => {
+        let modifiedCheckinTimeStamp = {};
+
+        modifiedCheckinTimeStamp.time = checkinTimeStamp.time;
+
+        let findedStationCheckin = _.find(
+          checkinTimeStamp.stations_checkins_count,
+          stationCheckin => {
+            return stationCheckin.id_station == id;
+          }
+        );
+
+        if (findedStationCheckin && findedStationCheckin.count) {
+          modifiedCheckinTimeStamp.checkins_count = findedStationCheckin.count;
+        }
+
+        return modifiedCheckinTimeStamp;
+      });
     }
   }
 };
